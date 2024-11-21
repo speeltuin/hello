@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  push:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-latest, windows-latest]
+        config: [Debug]
+        include:
+          - os: ubuntu-24.04
+            cc: clang-18
+            cxx: clang++-18
+          - os: macos-latest
+            cc: gcc-14
+            cxx: g++-14
+          - os: windows-latest
+            cc: cl.exe
+            cxx: cl.exe
+
+    runs-on: ${{matrix.os}}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: seanmiddleditch/gha-setup-ninja@v5
+      with:
+        version: 1.12.1
+
+    - uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Generate build system (Ubuntu/macOS)
+      run: cmake -B ${{github.workspace}}/build
+                 -G Ninja
+                 -DCMAKE_C_COMPILER:STRING=${{matrix.cc}}
+                 -DCMAKE_CXX_COMPILER:STRING=${{matrix.cxx}}
+                 -DCMAKE_BUILD_TYPE:STRING=${{matrix.config}}
+
+    - name: Build targets
+      run: cmake --build ${{github.workspace}}/build
+                 --config ${{matrix.config}}
