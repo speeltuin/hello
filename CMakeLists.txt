@@ -11,8 +11,8 @@ include(GenerateExportHeader)
 
 add_library(hello SHARED)
 set_target_properties(hello PROPERTIES
-    CXX_VISIBILITY_PRESET default
-    VISIBILITY_INLINES_HIDDEN OFF)
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN ON)
 generate_export_header(hello)
 target_sources(hello
     PUBLIC FILE_SET CXX_MODULES
