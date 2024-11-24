@@ -23,6 +23,7 @@ install(
 install(
     TARGETS hello_hello
     EXPORT helloTargets
+    FILE_SET HEADERS
     RUNTIME #
     COMPONENT hello_Runtime
     LIBRARY #

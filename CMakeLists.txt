@@ -29,6 +29,17 @@ generate_export_header(
     CUSTOM_CONTENT_FROM_VARIABLE pragma_suppress_c4251
 )
 
+target_sources(
+    hello_hello
+    PUBLIC FILE_SET HEADERS
+        BASE_DIRS
+            "${PROJECT_SOURCE_DIR}/include"
+            "${PROJECT_BINARY_DIR}/export"
+        FILES
+            "${PROJECT_SOURCE_DIR}/include/hello/hello.hpp"
+            "${PROJECT_BINARY_DIR}/export/hello/hello_export.hpp"
+)
+
 if(NOT BUILD_SHARED_LIBS)
   target_compile_definitions(hello_hello PUBLIC HELLO_STATIC_DEFINE)
 endif()
