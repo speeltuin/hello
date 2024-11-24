@@ -1,10 +1,7 @@
-#include <string>
-
+#include <cstring>
 #include "hello/hello.hpp"
 
 auto main() -> int
 {
-  auto const exported = exported_class {};
-
-  return std::string("hello") == exported.name() ? 0 : 1;
+  return std::strcmp(hello_get_name(), "hello") == 0 ? 0 : 1;
 }

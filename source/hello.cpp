@@ -1,13 +1,6 @@
-#include <string>
-
 #include "hello/hello.hpp"
 
-exported_class::exported_class()
-    : m_name {"hello"}
+auto hello_get_name() noexcept -> const char*
 {
-}
-
-auto exported_class::name() const -> char const*
-{
-  return m_name.c_str();
+  return "hello";
 }
