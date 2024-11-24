@@ -13,23 +13,16 @@ include(GNUInstallDirs)
 set(package hello)
 
 install(
-    DIRECTORY
-    include/
-    "${PROJECT_BINARY_DIR}/export/"
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-    COMPONENT hello_Development
-)
-
-install(
     TARGETS hello_hello
     EXPORT helloTargets
-    FILE_SET HEADERS
     RUNTIME #
     COMPONENT hello_Runtime
     LIBRARY #
     COMPONENT hello_Runtime
     NAMELINK_COMPONENT hello_Development
     ARCHIVE #
+    COMPONENT hello_Development
+    FILE_SET HEADERS
     COMPONENT hello_Development
     INCLUDES #
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
