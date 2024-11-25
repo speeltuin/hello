@@ -42,3 +42,17 @@ jobs:
     - name: Build targets
       run: cmake --build ${{github.workspace}}/build
                  --config ${{matrix.config}}
+
+    - name: Perform tests
+      run: ctest --test-dir ${{github.workspace}}/build
+                 --build-config ${{matrix.config}}
+                 --verbose
+
+    - name: Install package
+      run: cmake --install ${{github.workspace}}/build
+                 --config ${{matrix.config}}
+                 --prefix ${{github.workspace}}/install
+           
+    - name: Create package
+      working-directory: ${{github.workspace}}/build
+      run: cpack -C ${{matrix.config}} -G ZIP -V

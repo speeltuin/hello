@@ -1,6 +1,6 @@
 module;
 
-#include "hello_export.h"
+#include "hello/hello_export.h"
 #include <iostream>
 
 export module hello;
