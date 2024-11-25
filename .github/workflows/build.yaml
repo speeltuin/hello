@@ -15,8 +15,8 @@ jobs:
             cc: clang-18
             cxx: clang++-18
           - os: macos-latest
-            cc: gcc-14
-            cxx: g++-14
+            cc: clang
+            cxx: clang++
           - os: windows-latest
             cc: cl.exe
             cxx: cl.exe
@@ -31,6 +31,15 @@ jobs:
         version: 1.12.1
 
     - uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Install llvm
+      if: ${{matrix.os}} == 'macos-latest'
+      run: |
+        brew install llvm
+        echo $(brew --prefix llvm@18)/bin
+        echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.profile
+        export PATH=$(brew --prefix llvm@18)/bin:$PATH && echo "PATH=$PATH" >> $GITHUB_ENV
+        echo "CXX=clang++" >> $GITHUB_ENV
 
     - name: Generate build system (Ubuntu/macOS)
       run: cmake -B ${{github.workspace}}/build
