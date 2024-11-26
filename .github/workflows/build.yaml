@@ -8,13 +8,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, macos-latest, windows-latest]
+        os: [ubuntu-24.04, macos-15, windows-latest]
         config: [Debug]
         include:
           - os: ubuntu-24.04
             cc: clang-18
             cxx: clang++-18
-          - os: macos-latest
+          - os: macos-15
             cc: clang
             cxx: clang++
           - os: windows-latest
@@ -33,7 +33,7 @@ jobs:
     - uses: ilammy/msvc-dev-cmd@v1
 
     - name: Install llvm
-      if: ${{matrix.os}} == 'macos-latest'
+      if: ${{matrix.os == 'macos-15'}}
       run: |
         brew install llvm
         echo $(brew --prefix llvm@18)/bin
@@ -41,7 +41,7 @@ jobs:
         export PATH=$(brew --prefix llvm@18)/bin:$PATH && echo "PATH=$PATH" >> $GITHUB_ENV
         echo "CXX=clang++" >> $GITHUB_ENV
 
-    - name: Generate build system (Ubuntu/macOS)
+    - name: Generate build system
       run: cmake -B ${{github.workspace}}/build
                  -G Ninja
                  -DCMAKE_C_COMPILER:STRING=${{matrix.cc}}
